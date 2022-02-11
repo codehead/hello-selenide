@@ -30,7 +30,7 @@ public class RobobarStepDefinitions {
                 .screenshots(true)
                 .savePageSource(false)
         );
-        open("http://localhost:3000/");
+        open("http://192.168.62.11:3000/");
         checkoutPage = null;
     }
 

@@ -21,7 +21,7 @@ public class CartSuiteTest {
 
     @BeforeEach
     public void setUp() {
-        open("http://localhost:3000");
+        open("http://192.168.62.11:3000");
     }
 
     @Test
