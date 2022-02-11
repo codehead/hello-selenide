@@ -40,11 +40,11 @@ dependencies {
 }
 
 test {
+    systemProperties["selenide.browser"] = "chrome"
+    systemProperties["selenide.headless"] = "true"
+    systemProperties["selenide.remote"] = "http://localhost:4444/wd/hub"
     ignoreFailures = true
     useJUnitPlatform()
-    systemProperty("selenide.browser", "chrome")
-    systemProperty("selenide.remote", "http://0.0.0.0:4444/wd/hub")
-    systemProperty("selenide.headless", "true")
 }
 allure {
     autoconfigure = true
