@@ -34,6 +34,7 @@ public class CartSuiteTest {
         cartPage.checkoutButton().shouldBe(disabled);
     }
 
+    @Test
     @TmsLink("oneColaTest")
     public void colaTest() {
         cartPage.checkoutButton().shouldBe(disabled);
