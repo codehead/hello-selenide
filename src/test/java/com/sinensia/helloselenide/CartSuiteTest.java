@@ -2,6 +2,8 @@ package com.sinensia.helloselenide;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.Link;
+import io.qameta.allure.TmsLink;
 import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,7 +18,10 @@ public class CartSuiteTest {
     @BeforeAll
     public static void setUpAll() {
         Configuration.browserSize = "1280x800";
-        SelenideLogger.addListener("allure", new AllureSelenide().screenshots(true).savePageSource(false));
+        SelenideLogger.addListener("allure", new AllureSelenide()
+                .screenshots(true)
+                .savePageSource(false)
+        );
     }
 
     @BeforeEach
@@ -29,8 +34,16 @@ public class CartSuiteTest {
         cartPage.checkoutButton().shouldBe(disabled);
     }
 
-    @Test
+    @TmsLink("oneColaTest")
     public void colaTest() {
+        cartPage.checkoutButton().shouldBe(disabled);
+        cartPage.addCola();
+        cartPage.total().shouldBe(text("€1.25"));
+    }
+
+    @Test
+    @Link("https://example.org")
+    public void twoColaTest() {
         cartPage.checkoutButton().shouldBe(disabled);
         cartPage.addCola();
         cartPage.total().shouldBe(text("€1.25"));
