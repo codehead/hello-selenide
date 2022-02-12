@@ -17,6 +17,7 @@ pipeline {
                         properties: [],
                         results: [[path: 'build/allure-results']],
                     ])
+                    livingDocs featuresDir: 'build/reports/'
                     junit 'build/test-results/test/*.xml'
                     jacoco execPattern: 'build/jacoco/*.exec'
                     recordIssues(
