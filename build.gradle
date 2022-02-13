@@ -36,16 +36,50 @@ dependencies {
     testImplementation("io.cucumber:cucumber-junit:${cucumberVersion}")
     testImplementation("org.junit.vintage:junit-vintage-engine:${junitVersion}")
     testImplementation("io.qameta.allure:allure-cucumber4-jvm:2.15.0")
+    testImplementation("com.automation-remarks:video-recorder-junit5:1.8")
 
 }
 
 test {
+    /*
+     * selenide system properties
+     */
+    systemProperties["selenide.baseUrl"] = "https://robobar.sinensia.pw"
+    // connect to selenoid
+    systemProperties["selenide.remote"] = "http://192.168.62.11:4444/wd/hub"
+    // edge
+    // edit ~/.aerokube/selenoid/browsers.json to add a "MicrosoftEdge" section
+//    systemProperties["selenide.browser"] = "edge"
+    // chrome
     systemProperties["selenide.browser"] = "chrome"
-    systemProperties["selenide.headless"] = "true"
-    systemProperties["selenide.remote"] = "http://localhost:4444/wd/hub"
+//    systemProperties["selenide.browserVersion"] = "98.0"
+    // firefox
+//    systemProperties["selenide.browser"] = "firefox"
+    // opera
+    // edit ~/.aerokube/selenoid/browsers.json to add a "operablink" section
+//    systemProperties["selenide.browser"] = "opera"
+//    systemProperties["selenide.browserVersion"] = "83.0"
+//    systemProperties["selenide.headless"] = "false" // opera does not support headless mode
+    // common selenide capabilities: vnc, video
+    systemProperties["selenide.browserSize"] = "1024x768"
+    // not actual selenide properties
+//    systemProperties["selenide.enableVNC"] = "true"
+//    systemProperties["selenide.enableVideo"] = "true"
+    // no, browserCapabilities are not deserialized from system property
+//    systemProperties["selenide.browserCapabilities"] = "{enableVNC: true, enableVideo: true}"
+
+    // ignore failures to get report anyways
     ignoreFailures = true
+    // use JUnit
     useJUnitPlatform()
 }
+
+task 'testFirefox'(type:Test) {
+    systemProperties["selenide.baseUrl"] = "https://robobar.sinensia.pw"
+    systemProperties["selenide.remote"] = "http://192.168.62.11:4444/wd/hub"
+    systemProperties["selenide.browser"] = "firefox"
+}
+
 allure {
     autoconfigure = true
     version = "${allureVersion}"

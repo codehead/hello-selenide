@@ -12,6 +12,8 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.qameta.allure.selenide.AllureSelenide;
+import org.openqa.selenium.MutableCapabilities;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
@@ -25,12 +27,25 @@ public class RobobarStepDefinitions {
     @Given("user opens robobar website")
     @Given("l'usuari entra al bar")
     public void openRobobar() {
-        Configuration.browserSize = "1280x800";
+        // Set desired window size
+//        Configuration.browserSize = "1280x800";
+        // Set additional capabilities, e.g. enableVNC
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+        // enableVNC - live VNC display will show up in selenoid-ui session
+        capabilities.setCapability("enableVNC", true);
+        // enableVideo - links will show up at http://soleniod:4444/video/
+        capabilities.setCapability("enableVideo", true);
+        Configuration.browserCapabilities = capabilities;
+//        System.out.println(Configuration.browserCapabilities.toString());
+//        System.out.println(Configuration.browserCapabilities.toJson());
+
+        // Add allure listener
         SelenideLogger.addListener("allure", new AllureSelenide()
                 .screenshots(true)
                 .savePageSource(false)
         );
-        open("http://192.168.62.11:3000/");
+        // Open URL
+        open("/");
         checkoutPage = null;
     }
 

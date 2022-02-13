@@ -1,6 +1,8 @@
 package com.sinensia.helloselenide;
 
+import com.automation.remarks.video.annotations.Video;
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.logevents.SelenideLogger;
 import io.qameta.allure.Link;
 import io.qameta.allure.TmsLink;
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.screenshot;
 
 public class CartSuiteTest {
     CartPage cartPage = new CartPage();
@@ -26,7 +29,7 @@ public class CartSuiteTest {
 
     @BeforeEach
     public void setUp() {
-        open("http://192.168.62.11:3000");
+        open("/");
     }
 
     @Test
@@ -43,6 +46,7 @@ public class CartSuiteTest {
     }
 
     @Test
+    @Video(name = "twoColaVideo")
     @Link("https://example.org")
     public void twoColaTest() {
         cartPage.checkoutButton().shouldBe(disabled);
@@ -51,5 +55,6 @@ public class CartSuiteTest {
         cartPage.addCola();
         cartPage.total().shouldBe(text("€2.50"));
         cartPage.checkoutButton().shouldBe(enabled);
+        screenshot("twoColaTest");
     }
 }
