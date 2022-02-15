@@ -37,13 +37,12 @@ dependencies {
     testImplementation("org.junit.vintage:junit-vintage-engine:${junitVersion}")
     testImplementation("io.qameta.allure:allure-cucumber4-jvm:2.15.0")
     testImplementation("com.automation-remarks:video-recorder-junit5:1.8")
+    testImplementation("com.codeborne:phantomjsdriver:1.4.4")
 
 }
 
-test {
-    /*
-     * selenide system properties
-     */
+// These default settings will be inherited by all Test tasks
+tasks.withType(Test) {
     systemProperties["selenide.baseUrl"] = "https://robobar.sinensia.pw"
     // connect to selenoid
     systemProperties["selenide.remote"] = "http://192.168.62.11:4444/wd/hub"
@@ -60,6 +59,9 @@ test {
 //    systemProperties["selenide.browser"] = "opera"
 //    systemProperties["selenide.browserVersion"] = "83.0"
 //    systemProperties["selenide.headless"] = "false" // opera does not support headless mode
+    // phantomjs
+    // must add testImplementation 'com.codeborne:phantomjsdriver:1.4.4'
+//    systemProperties["selenide.browser"] = "org.openqa.selenium.phantomjs.PhantomJSDriver"
     // common selenide capabilities: vnc, video
     systemProperties["selenide.browserSize"] = "1024x768"
     // not actual selenide properties
@@ -74,10 +76,24 @@ test {
     useJUnitPlatform()
 }
 
+test {
+}
+
 task 'testFirefox'(type:Test) {
-    systemProperties["selenide.baseUrl"] = "https://robobar.sinensia.pw"
-    systemProperties["selenide.remote"] = "http://192.168.62.11:4444/wd/hub"
     systemProperties["selenide.browser"] = "firefox"
+}
+
+task 'testEdge'(type:Test) {
+    systemProperties["selenide.browser"] = "edge"
+}
+
+task 'testOpera'(type:Test) {
+    systemProperties["selenide.browser"] = "opera"
+}
+
+task 'testPhantomJS'(type:Test) {
+    systemProperties.remove("selenide.remote")
+    systemProperties["selenide.browser"] = "org.openqa.selenium.phantomjs.PhantomJSDriver"
 }
 
 allure {
