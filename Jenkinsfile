@@ -2,9 +2,23 @@ pipeline {
     agent any
 
     stages {
-        stage('Test') {
+        stage('Clean') {
             steps {
-                sh './gradlew clean test check'
+                sh './gradlew clean'
+            }
+        }
+        stage('Test') {
+            parallel {
+                stage('test: chrome') {
+                    steps {
+                        sh './gradlew test'
+                    }
+                }
+                stage('test: firefox') {
+                    steps {
+                        sh './gradlew testFirefox'
+                    }
+                }
             }
             post {
                 // If Gradle was able to run the tests, even if some of the test
@@ -17,7 +31,7 @@ pipeline {
                         properties: [],
                         results: [[path: 'build/allure-results']],
                     ])
-                    livingDocs featuresDir: 'build/reports/'
+//                     livingDocs featuresDir: 'build/reports/'
                     junit 'build/test-results/test/*.xml'
                     jacoco execPattern: 'build/jacoco/*.exec'
                     recordIssues(
